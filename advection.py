@@ -3,6 +3,22 @@
 import numpy as np
 import scipy.ndimage.interpolation as ip
 
+def get_method(name):
+  """Return a callable function for the extrapolation method corresponding to 
+  the given name. The available options are:\n\
+  
+  +-------------------+--------------------------------------------------------+
+  |     Name          |              Description                               |
+  +===================+========================================================+
+  |  semilagrangian   | implementation of the semi-Lagrangian method of        |
+  |                   | Germann et al., 2002                                   |
+  +-------------------+--------------------------------------------------------+
+  """
+  if name == "semilagrangian":
+    return semilagrangian
+  else:
+    raise ValueError("unknown method %s, the only currently implemented method is 'semilagrangian'" % name)
+
 def semilagrangian(R, V, num_timesteps, D_prev=None, n_iter=3, inverse=True, 
                    return_displacement=False):
   """Apply semi-Lagrangian extrapolation to a two-dimensional precipitation 
