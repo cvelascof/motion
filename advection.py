@@ -29,11 +29,11 @@ def semilagrangian(R, V, num_timesteps, D_prev=None, n_iter=3, inverse=True,
   R : array-like
     Array of shape (m,n) containing the input precipitation field.
   V : array-like
-    Array of shape (m,n,d>=2) containing the x- and y-components of the m*n 
+    Array of shape (m,n,2) containing the x- and y-components of the m*n 
     advection field.
   num_timesteps : int
     Number of time steps to extrapolate.
-  XYD_0 : array-like
+  D_prev : array-like
     Optional initial displacement vector field of shape (m,n,2) for the 
     extrapolation.
   n_iter : int
