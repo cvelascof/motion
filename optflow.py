@@ -1,6 +1,5 @@
 """Interface and utility methods for different optical flow algorithms."""
 
-# TODO: Implement this method.
 def get_method(name):
   """Return a callable function for the optical flow method corresponding to
   the given name. The available options are:\n\
@@ -28,4 +27,8 @@ def get_method(name):
   |                   | (http://www.ipol.im/pub/art/2015/44)                   |
   +-------------------+--------------------------------------------------------+
   """
-  pass
+  if name == "lucaskanade":
+    from lucaskanade import dense_lucaskanade 
+    return dense_lucaskanade
+  else:
+    raise ValueError("unknown method %s, the only implemented method is 'lucaskanade'" % name)
