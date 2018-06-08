@@ -98,6 +98,6 @@ def semilagrangian(R, V, num_timesteps, D_prev=None, n_iter=3, inverse=True,
     R_e.append(np.reshape(IW, R.shape))
   
   if return_displacement == False:
-    return R_e
+    return np.stack(R_e)
   else:
-    return R_e, D
+    return np.stack(R_e), D
