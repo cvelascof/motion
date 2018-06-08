@@ -60,12 +60,12 @@ def semilagrangian(R, V, num_timesteps, D_prev=None, n_iter=3, inverse=True,
   
   coeff = 1.0 if not inverse else -1.0
   
-  X,Y = np.meshgrid(np.arange(V.shape[1]), np.arange(V.shape[0]))
-  XY  = np.dstack([X, Y])
+  X,Y = np.meshgrid(np.arange(V.shape[2]), np.arange(V.shape[1]))
+  XY  = np.stack([X, Y])
   
   R_e = []
   if D_prev is None:
-    D = np.zeros((V.shape[0], V.shape[1], 2))
+    D = np.zeros((2, V.shape[1], V.shape[2]))
   else:
     D = D_prev.copy()
   
@@ -75,23 +75,23 @@ def semilagrangian(R, V, num_timesteps, D_prev=None, n_iter=3, inverse=True,
     for k in xrange(n_iter):
       if t > 0 or k > 0 or D_prev is not None:
         XYW = XY + D - V_inc / 2.0
-        XYW = [XYW[:, :, 1], XYW[:, :, 0]]
+        XYW = [XYW[1, :, :], XYW[0, :, :]]
         
-        VWX = ip.map_coordinates(V[:, :, 0], XYW, mode="constant", cval=np.nan, 
+        VWX = ip.map_coordinates(V[0, :, :], XYW, mode="constant", cval=np.nan, 
                                  order=1, prefilter=False)
-        VWY = ip.map_coordinates(V[:, :, 1], XYW, mode="constant", cval=np.nan, 
+        VWY = ip.map_coordinates(V[1, :, :], XYW, mode="constant", cval=np.nan, 
                                  order=1, prefilter=False)
       else:
-        VWX = V[:, :, 0]
-        VWY = V[:, :, 1]
+        VWX = V[0, :, :]
+        VWY = V[1, :, :]
       
-      V_inc[:, :, 0] = VWX / n_iter
-      V_inc[:, :, 1] = VWY / n_iter
+      V_inc[0, :, :] = VWX / n_iter
+      V_inc[1, :, :] = VWY / n_iter
       
       D += coeff * V_inc
     
     XYW = XY + D
-    XYW = [XYW[:, :, 1], XYW[:, :, 0]]
+    XYW = [XYW[1, :, :], XYW[0, :, :]]
     
     IW = ip.map_coordinates(R, XYW, mode="constant", cval=np.nan, order=1, 
                             prefilter=False)
