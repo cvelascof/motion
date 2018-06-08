@@ -2,9 +2,9 @@
 
 # TODO: Implement this method.
 def get_method(name):
-  """Return a callable function for the optical flow method corresponding to 
+  """Return a callable function for the optical flow method corresponding to
   the given name. The available options are:\n\
-  
+
   +----------------------------------------------------------------------------+
   | Python-based implementations                                               |
   +-------------------+--------------------------------------------------------+
@@ -12,9 +12,9 @@ def get_method(name):
   +===================+========================================================+
   |  lucaskanade      | OpenCV implementation of the Lucas-Kanade method       |
   |                   | with interpolated motion vectors for areas with no     |
-  |                   | precipitation (by Daniele Nerini)                      |
+  |                   | precipitation.                                         |
   +-------------------+--------------------------------------------------------+
-  
+
   +----------------------------------------------------------------------------+
   | Methods implemented in C (these require separate compilation and linkage)  |
   +-------------------+--------------------------------------------------------+
