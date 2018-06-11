@@ -267,7 +267,7 @@ def clean_image(R, n=3, thr=0):
     mask = (field_bin - field_bin_out) > 0
 
     # filter out small isolated echoes based on mask
-    R[mask] = 0
+    R[mask] = np.nanmin(R)
 
     return R
     
