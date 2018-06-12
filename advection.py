@@ -48,9 +48,9 @@ def semilagrangian(R, V, num_timesteps, D_prev=None, n_iter=3, inverse=True,
   Returns
   -------
   out : array or tuple
-    If return_displacement=False, return the extrapolated field of shape (m,n). 
-    Otherwise, return a tuple containing the extrapolated field and the total 
-    displacement along the advection trajectory.
+    If return_displacement=False, return a time series extrapolated fields of 
+    shape (num_timesteps,m,n). Otherwise, return a tuple containing the 
+    extrapolated fields and the total displacement along the advection trajectory.
   """
   if len(R.shape) != 2:
     raise ValueError("R must be a two-dimensional array")
