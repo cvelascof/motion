@@ -77,10 +77,10 @@ def semilagrangian(R, V, num_timesteps, D_prev=None, n_iter=3, inverse=True,
         XYW = XY + D - V_inc / 2.0
         XYW = [XYW[1, :, :], XYW[0, :, :]]
         
-        VWX = ip.map_coordinates(V[0, :, :], XYW, mode="constant", cval=np.nan, 
-                                 order=1, prefilter=False)
-        VWY = ip.map_coordinates(V[1, :, :], XYW, mode="constant", cval=np.nan, 
-                                 order=1, prefilter=False)
+        VWX = ip.map_coordinates(V[0, :, :], XYW, mode="nearest", order=1, 
+                                 prefilter=False)
+        VWY = ip.map_coordinates(V[1, :, :], XYW, mode="nearest", order=1, 
+                                 prefilter=False)
       else:
         VWX = V[0, :, :]
         VWY = V[1, :, :]
