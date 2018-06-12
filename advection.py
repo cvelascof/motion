@@ -20,7 +20,7 @@ def get_method(name):
     raise ValueError("unknown method %s, the only currently implemented method is 'semilagrangian'" % name)
 
 def semilagrangian(R, V, num_timesteps, D_prev=None, n_iter=3, inverse=True, 
-                   return_displacement=False):
+                   return_displacement=False, outval=np.nan):
   """Apply semi-Lagrangian extrapolation to a two-dimensional precipitation 
   field.
   
@@ -44,6 +44,10 @@ def semilagrangian(R, V, num_timesteps, D_prev=None, n_iter=3, inverse=True,
   return_displacement : bool
     If True, return the total advection velocity (displacement) between the 
     initial input field and the advected one integrated along the trajectory.
+  outval : float
+    Optional argument for specifying the value for pixels advected from outside 
+    the domain. If outval is set to 'min', the value is taken as the minimum 
+    value of R.
   
   Returns
   -------
@@ -57,6 +61,9 @@ def semilagrangian(R, V, num_timesteps, D_prev=None, n_iter=3, inverse=True,
   
   if len(V.shape) != 3:
     raise ValueError("V must be a three-dimensional array")
+  
+  if outval == "min":
+    outval = np.nanmin(R)
   
   coeff = 1.0 if not inverse else -1.0
   
@@ -93,7 +100,7 @@ def semilagrangian(R, V, num_timesteps, D_prev=None, n_iter=3, inverse=True,
     XYW = XY + D
     XYW = [XYW[1, :, :], XYW[0, :, :]]
     
-    IW = ip.map_coordinates(R, XYW, mode="constant", cval=np.nan, order=1, 
+    IW = ip.map_coordinates(R, XYW, mode="constant", cval=outval, order=1, 
                             prefilter=False)
     R_e.append(np.reshape(IW, R.shape))
   
